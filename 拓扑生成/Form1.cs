@@ -40,6 +40,29 @@ namespace 拓扑生成
 
         private void button2_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < 6; i++)
+            {
+                Side[i] = new Boundary("", "", "");
+            }//初始化所有弧段信息
+            OpenFileDialog o = new OpenFileDialog();
+            o.ShowDialog();
+            string filename = o.FileName;
+            StreamReader reader = null;
+            reader = new StreamReader(filename);
+            string line = reader.ReadLine();
+            for (int i = 0; i < 6; line = reader.ReadLine())
+            {
+                line = new Regex("[\\s]+").Replace(line, " ");
+                string[] str = line.Split(' ');
+                Side[i] = new Boundary(str[0], str[1], str[2]);
+                i++;
+            }
+            if (reader != null)
+                reader.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
             //初始化所有点信息
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
@@ -63,29 +86,7 @@ namespace 拓扑生成
             if (reader != null)
                 reader.Close();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            for(int i=0;i<6;i++)
-            {
-                Side[i] = new Boundary("", "", "");
-            }//初始化所有弧段信息
-            OpenFileDialog o = new OpenFileDialog();
-            o.ShowDialog();
-            string filename = o.FileName;
-            StreamReader reader = null;
-            reader = new StreamReader(filename);
-            string line = reader.ReadLine();
-            for(int i=0;i<6;line=reader.ReadLine())
-            {
-                line = new Regex("[\\s]+").Replace(line, " ");
-                string[] str = line.Split(' ');
-                Side[i] = new Boundary(str[0], str[1], str[2]);
-                i++;
-            }
-            if (reader != null)
-                reader.Close();
-        }
+        
 
         private void button3_Click(object sender, EventArgs e)
         {
