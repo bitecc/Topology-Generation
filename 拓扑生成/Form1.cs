@@ -52,7 +52,7 @@ namespace 拓扑生成
             string line = reader.ReadLine();
             for (int i = 0; i < 4; line = reader.ReadLine())
             {
-                line = new Regex("[\\s]+").Replace(line, "");
+                line = new Regex("[\\s]+").Replace(line, " ");
                 string[] str = line.Split(' ');
                 for (int j = 0; j < 4; j++)
                 {
@@ -78,7 +78,7 @@ namespace 拓扑生成
             string line = reader.ReadLine();
             for(int i=0;i<6;line=reader.ReadLine())
             {
-                line = new Regex("[\\s]+").Replace(line, "");
+                line = new Regex("[\\s]+").Replace(line, " ");
                 string[] str = line.Split(' ');
                 Side[i] = new Boundary(str[0], str[1], str[2]);
                 i++;
