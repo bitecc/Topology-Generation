@@ -92,63 +92,18 @@ namespace 拓扑生成
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string N0, Nc;//定义起始结点和当前结点
-            for(int i=0,j=1;i<6;i++)//j存储多边形的个数并将其编号
+            string N0, Nc;//定义起始节点和当前节点
+            for (int i = 0, j = 1; i < 6; i++)//j用来存储多边形的个数并将其编号
             {
-                if(Side[i].Pl=="")//当前弧段左多边形为空
+                if (Side[i].Pl == "")//当前弧段左多边形为空的情况
                 {
                     richTextBox1.Text += "P" + j + " " + Side[i].name + " ";
                     Side[i].Pl = "P" + j;
                     N0 = Side[i].S;
-                    Nc = Side[i].E;
-                    string A = Side[i].name;
-                    int B = 0;
-                    while(N0!=Nc)//判断N0和Nc是否相等
-                    {
-                        for(int m=0;m<4;m++)
-                        {
-                            if(Point[m,0]==Nc)
-                            {
-                                for(int n=1;n<4;n++)
-                                {
-                                    if(Point[m,n]==A)
-                                    {
-                                        if (n == 3)
-                                            n = 0;
-                                        B = Convert.ToInt16(Point[m, n + 1]);
-                                        break;
-                                    }
-                                }
-                            }
-                        }//在节点表中寻找当前弧段的下一弧段的名称
-                        richTextBox1.Text += Side[B - 1].name + " ";
-                        if(Nc==Side[B-1].S)
-                        {
-                            Side[B - 1].Pl = "P" + j;
-                            Nc = Side[B - 1].E;
-                            A = Side[B - 1].name;
-                        }
-                        else
-                        {
-                            Side[B - 1].Pr = "P" + j;
-                            Nc = Side[B - 1].S;
-                            A = Side[B - 1].name;
-                        }
-                        if (N0 == Nc)
-                            break;
-                    }
-                    j++;
-                    richTextBox1.Text += "\n";
-                }
-                if(Side[i].Pr=="")//和左多边形为空的情况相似
-                {
-                    richTextBox1.Text += "P" + j + " " + Side[i].name + " ";
-                    Side[i].Pl = "P" + j;
-                    N0 = Side[i].E;
-                    Nc = Side[i].S;
-                    string A = Side[i].name;
-                    int B = 0;
-                    while (N0 != Nc)
+                    Nc = Side[i].E;//初始化起始节点和当前节点
+                    string A = Side[i].name;//存储当前Bian的名字信息，方便后面代码进行比较
+                    int B = 0;//用来存储节点表中当前节点的下一节点的名称
+                    while (N0 != Nc)//判断N0和Nc是否相等
                     {
                         for (int m = 0; m < 4; m++)
                         {
@@ -165,13 +120,58 @@ namespace 拓扑生成
                                     }
                                 }
                             }
-                        }
+                        }//在节点表中寻找当前弧段的下一弧段的名称并将其转为整型备用
                         richTextBox1.Text += Side[B - 1].name + " ";
                         if (Nc == Side[B - 1].S)
                         {
                             Side[B - 1].Pl = "P" + j;
                             Nc = Side[B - 1].E;
+                            A = Side[B - 1].name;//将下一边设为当前边
+                        }
+                        else 
+                        {
+                            Side[B - 1].Pr = "P" + j;
+                            Nc = Side[B - 1].S;
                             A = Side[B - 1].name;
+                        }
+                        if (N0 == Nc) break;
+                    }
+                    j++;
+                    richTextBox1.Text += "\n";
+                }
+                if (Side[i].Pr == "")//当前弧段右多边形为空的情况，和左多边形的情况基本一样
+                {
+                    richTextBox1.Text += "P" + j + " " + Side[i].name + " ";
+                    Side[i].Pr = "P" + j;
+                    N0 = Side[i].E;
+                    Nc = Side[i].S;
+                    string A = Side[i].name;//存储当前Bian的名字信息，方便后面代码进行比较
+                    int B = 0;//用来存储节点表中当前节点的下一节点的名称
+                    while (N0 != Nc)//判断N0和Nc是否相等
+                    {
+                        for (int m = 0; m < 4; m++)
+                        {
+                            if (Point[m, 0] == Nc)
+                            {
+                                for (int n = 1; n < 4; n++)
+                                {
+                                    if (Point[m, n] == A)
+                                    {
+                                        if (n == 3)
+                                            n = 0;
+                                        B = Convert.ToInt16(Point[m, n + 1]);
+                                        break;
+                                    }
+
+                                }
+                            }
+                        }//在节点表中寻找当前弧段的下一弧段的名称并将其转为整型备用
+                        richTextBox1.Text += Side[B - 1].name + " ";
+                        if (Nc == Side[B - 1].S)
+                        {
+                            Side[B - 1].Pl = "P" + j;
+                            Nc = Side[B - 1].E;
+                            A = Side[B - 1].name;//将下一边设为当前边
                         }
                         else
                         {
@@ -179,17 +179,23 @@ namespace 拓扑生成
                             Nc = Side[B - 1].S;
                             A = Side[B - 1].name;
                         }
-                        if (N0 == Nc)
-                            break;
+                        if (N0 == Nc) break;
                     }
                     j++;
                     richTextBox1.Text += "\n";
+
                 }
             }
-            for(int i=0;i<6;i++)
+            for (int i = 0; i < 6; i++)//输出每条弧段的左右多边形
             {
-                richTextBox2.Text += "弧段" + Side[i].name + " 左多边形为：" + Side[i].Pl + " 右多边形为：" + Side[i].Pr + "\n";
+                richTextBox2.Text += "弧段" +Side[i].name + " 左多边形为：" + Side[i].Pl + " 右多边形为：" + Side[i].Pr + "\n";
             }
+            string filename = "D://result.txt";//将结果存储在一个txt文本文件中
+            StreamWriter writer = null;
+            writer = new StreamWriter(filename);
+            writer.WriteLine("多边形结构表为：\n" + richTextBox1.Text);
+            writer.WriteLine("左右多边形表为：\n" + richTextBox2.Text);
+            writer.Close();
         }
 
         private void richTextBox2_TextChanged(object sender, EventArgs e)
