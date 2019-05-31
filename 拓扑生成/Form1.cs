@@ -193,8 +193,9 @@ namespace 拓扑生成
             string filename = "D://result.txt";//将结果存储在一个txt文本文件中
             StreamWriter writer = null;
             writer = new StreamWriter(filename);
-            writer.WriteLine("多边形结构表为：\n" + richTextBox1.Text);
-            writer.WriteLine("左右多边形表为：\n" + richTextBox2.Text);
+            writer.WriteLine("面-弧拓扑关系为：\n" + richTextBox1.Text);
+            writer.WriteLine("----------------\n");
+            writer.WriteLine("弧-多边形拓扑关系为：\n" + richTextBox2.Text);
             writer.Close();
         }
 
